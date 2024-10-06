@@ -15,7 +15,7 @@ type FetchInput struct {
 func Fetch(ctx context.Context, input *FetchInput) error {
 	fp := gofeed.NewParser()
 
-	feed, err := fp.ParseString(input.URL.String())
+	feed, err := fp.ParseURLWithContext(input.URL.String(), ctx)
 	if err != nil {
 		return err
 	}

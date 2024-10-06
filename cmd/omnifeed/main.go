@@ -11,7 +11,7 @@ import (
 func main() {
 	log.Logger.Info("Start")
 
-	uri, err := url.Parse("https://go.dev/blog/feed.atom")
+	uri, err := url.ParseRequestURI("https://go.dev/blog/feed.atom")
 	if err != nil {
 		log.Logger.Fatal("URL Parse Error", log.String("Error", err.Error()))
 	}
