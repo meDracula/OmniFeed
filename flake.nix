@@ -2,8 +2,9 @@
   description = "OmniFeed";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+	pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, pre-commit-hooks }:
   let
     # Systems supported
     allSystems = [
@@ -33,6 +34,7 @@
     devShells = forAllSystems ({ pkgs }: {
       default = pkgs.mkShell {
         name = "omnifeed";
+		inherit pre-commit-hooks;
         packages = with pkgs; [
           figlet
           go            # The Go CLI
@@ -44,6 +46,7 @@
       };
       pair = pkgs.mkShell {
         name = "omnifeed";
+		inherit pre-commit-hooks;
         packages = with pkgs; [
           figlet
           mob
