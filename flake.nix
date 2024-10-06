@@ -16,7 +16,7 @@
     });
   in
   {
-    devShells = forallSystems ({ pkgs }: {
+    devShells = forAllSystems ({ pkgs }: {
       omnifeed = pkgs.mkShell {
         name = "omnifeed";
         packages = with pkgs; [
