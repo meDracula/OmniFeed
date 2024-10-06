@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=jcroql
+version: 2
+
+env:
+  - RELEASE_TAG={{ if index .Env "CI_COMMIT_TAG" }}{{ .Tag }}{{ else }}{{ .ShortCommit }}{{ end }}
+  - IS_RELEASE_DISABLE={{ if index .Env "CI_COMMIT_TAG" }}false{{ else }}true{{ end }}
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - main: ./cmd/omnifeed
+    id: "omnifeed"
+    binary: "omnifeed-{{ .ShortCommit }}-{{ .Runtime.Goos }}-{{ .Runtime.Goarch }}"
+    env: ["CGO_ENABLED=0"]
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^test:"
+      - "^test\\("
+      - "merge conflict"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+  groups:
+    - title: "Dependency updates"
+      regexp: '^.*?(.+)\(deps\)!?:.+$'
+      order: 300
+    - title: "New Features"
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 100
+    - title: "Security updates"
+      regexp: '^.*?sec(\(.+\))??!?:.+$'
+      order: 150
+    - title: "Bug fixes"
+      regexp: '^.*?(bugfix|refactor)(\(.+\))??!?:.+$'
+      order: 200
+    - title: "Documentation updates"
+      regexp: '^.*?doc?(\(.+\))??!?:.+$'
+      order: 400
+    - title: "Build process updates"
+      regexp: '^.*?(build|ci)(\(.+\))??!?:.+$'
+      order: 400
+    - title: "Other work"
+      order: 9999
+
+release:
+  disable: "{{ .Env.IS_RELEASE_DISABLE }}"
+  name_template: "v{{ .Version }} 🚀"
