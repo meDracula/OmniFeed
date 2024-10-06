@@ -16,15 +16,27 @@
     });
   in
   {
+    # TODO Work in Progress
     packages = forAllSystems ({ pkgs }: {
-      default = pkgs.buildGoModule rec {
-        name = "omnifeed";
-        src = "./cmd/omnifeed";
+      default = pkgs.buildGoModule {
+        pname = "omnifeed";
+        version = "unversioned";
+        src = ./.;
+        ldflags = [ "-s" "-w" "-X main.version=dev" "-X main.builtBy=flake" ];
         CGO_ENABLED = 0;
+        doCheck = false;
+        vendorHash = "";
       };
     });
 
     devShells = forAllSystems ({ pkgs }: {
+      default = pkgs.mkShellNoCC {
+        packages = with pkgs; [
+          go
+        ];
+        shellHook = "go mod tidy";
+      };
+
       omnifeed = pkgs.mkShell {
         name = "omnifeed";
         packages = with pkgs; [
