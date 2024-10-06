@@ -18,6 +18,7 @@
   {
     packages = forAllSystems ({ pkgs }: {
       default = pkgs.buildGoModule rec {
+        name = "omnifeed";
         src = "./cmd/omnifeed";
         CGO_ENABLED = 0;
       };
