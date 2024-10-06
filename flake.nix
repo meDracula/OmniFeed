@@ -16,6 +16,13 @@
     });
   in
   {
+    packages = forAllSystems ({ pkgs }: {
+      default = pkgs.buildGoModule rec {
+        src = "./cmd/omnifeed";
+        CGO_ENABLED = 0;
+      };
+    });
+
     devShells = forAllSystems ({ pkgs }: {
       omnifeed = pkgs.mkShell {
         name = "omnifeed";
