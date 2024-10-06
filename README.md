@@ -7,4 +7,5 @@ The pre-commit verifies formatting and simple linting options.
 
 The pre-commit will consume the `.pre-commit-config.yaml` and install the tools listed specified in that file.
 
-> **NOTE** Using pre-commit for this repository is optional. Installation is **not** need if so wishes!
+> [!TIP]
+> Using pre-commit for this repository is optional. Installation is **not** need if so wishes!
