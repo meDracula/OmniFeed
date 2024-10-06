@@ -14,6 +14,7 @@
     forAllSystems = f: nixpkgs.lib.genAttrs allSystems (system: f {
       pkgs = import nixpkgs { inherit system; };
     });
+
   in
   {
     # TODO Work in Progress
@@ -34,8 +35,10 @@
         name = "omnifeed";
         packages = with pkgs; [
           figlet
-          go # The Go CLI
-          gotools # Go tools like goimports, godoc, and others
+          go            # The Go CLI
+          gotools       # Go tools like goimports, godoc, and others
+          goreleaser    # Goreleaser for the process of releasing the project
+          golangci-lint # Go linters tool
         ];
         shellHook = ''echo "OmniFeed" | figlet'';
       };
@@ -43,9 +46,11 @@
         name = "omnifeed";
         packages = with pkgs; [
           figlet
-          go # The Go CLI
-          gotools # Go tools like goimports, godoc, and others
           mob
+          go            # The Go CLI
+          gotools       # Go tools like goimports, godoc, and others
+          goreleaser    # Goreleaser for the process of releasing the project
+          golangci-lint # Go linters tool
         ];
         shellHook = ''echo "OmniFeed with Mob" | figlet'';
       };
