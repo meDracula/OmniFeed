@@ -30,14 +30,7 @@
     });
 
     devShells = forAllSystems ({ pkgs }: {
-      default = pkgs.mkShellNoCC {
-        packages = with pkgs; [
-          go
-        ];
-        shellHook = "go mod tidy";
-      };
-
-      omnifeed = pkgs.mkShell {
+      default = pkgs.mkShell {
         name = "omnifeed";
         packages = with pkgs; [
           figlet
