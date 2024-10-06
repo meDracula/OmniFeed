@@ -26,7 +26,7 @@ lint: requirements
 
 build:
 	goreleaser build --clean --skip validate
-	@echo "INFO: Postee Actions are built 💾"
+	@echo "INFO: OmniFeed are built 💾"
 
 clean: requirements
 	go clean
