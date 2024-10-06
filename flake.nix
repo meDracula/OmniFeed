@@ -39,6 +39,16 @@
         ];
         shellHook = ''echo "OmniFeed" | figlet'';
       };
+      pair = pkgs.mkShell {
+        name = "omnifeed";
+        packages = with pkgs; [
+          figlet
+          go # The Go CLI
+          gotools # Go tools like goimports, godoc, and others
+          mob
+        ];
+        shellHook = ''echo "OmniFeed with Mob" | figlet'';
+      };
     });
   };
 }
